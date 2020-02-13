@@ -32,11 +32,7 @@ async function exportSecrets() {
                 responseType: 'json'
             };
 
-            if (vaultNamespace != null) {
-                options.headers["X-Vault-Namespace"] = vaultNamespace;
-            }
-
-            const result = await got.post(`${vaultUrl}/v1/auth/approle/login`, options);
+            const result = await got.post(`${vaultUrl}/v1/auth/${vaultNamespace}/approle/login`, options);
             if (result && result.body && result.body.auth && result.body.auth.client_token) {
                 vaultToken = result.body.auth.client_token;
                 core.debug('✔ Vault Token has retrieved from approle');
